@@ -52,7 +52,6 @@ ${candidateLines.slice(0, 2).map(line => `- ${line}`).join("\n")}
 app.listen(3000, () => {
   console.log('Fairy Agent Server running on port 3000');
 });
-const path = require('path');
 
 app.get('/openapi.yaml', (req, res) => {
   res.sendFile(path.join(__dirname, 'openapi.yaml'));
