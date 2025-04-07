@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: fairy-agent
-    env: node
-    plan: free
-    buildCommand: npm install
-    startCommand: node server.js
-    branch: main
-    autoDeploy: true
