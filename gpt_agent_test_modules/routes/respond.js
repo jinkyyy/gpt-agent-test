@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { buildPrompt } = require('../utils/promptBuilder');
-const classifyInput = require('../../utils/classifyInput');
+const classifyInput = require('../utils/classifyInput');
 const { searchMemory } = require('../utils/memoryClient'); // Supabase 기반
 
 router.post('/respond', async (req, res) => {
