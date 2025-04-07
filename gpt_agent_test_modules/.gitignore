@@ -1,0 +1,13 @@
+# 환경 변수 파일 (민감 정보)
+.env
+
+# Node.js 기본 제외 항목
+node_modules/
+dist/
+npm-debug.log
+.DS_Store
+
+# 운영체제 및 에디터 설정파일
+.vscode/
+.idea/
+*.swp

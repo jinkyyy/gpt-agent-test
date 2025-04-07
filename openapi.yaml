@@ -1,0 +1,42 @@
+---
+openapi: 3.0.0
+info:
+  title: Fairy Agent API
+  description: 사용자 입력과 캐릭터 정보를 기반으로 응답을 생성하는 API
+  version: 1.0.0
+
+servers:
+  - url: https://gpt-agent-test.onrender.com
+
+paths:
+  /respond:
+    post:
+      operationId: respondToUser
+      summary: 캐릭터와 사용자 입력을 기반으로 응답 생성
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userInput:
+                  type: string
+                  description: 사용자의 입력 메시지
+                character:
+                  type: string
+                  description: 사용할 캐릭터 이름 (예: "fairy")
+              required:
+                - userInput
+                - character
+      responses:
+        '200':
+          description: 생성된 캐릭터 응답
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    description: 생성된 텍스트 응답
