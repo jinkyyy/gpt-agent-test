@@ -30,7 +30,7 @@ router.post('/respond', async (req, res) => {
   // [4] GPT 호출은 목업
   const reply = `<< Render API 응답 예시 >>\n${prompt.slice(-300)}...`;
 
-  res.json({ reply });
+  res.json({ result: reply });
 });
 
 module.exports = router;
