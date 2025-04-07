@@ -3,7 +3,8 @@ services:
     name: fairy-agent
     env: node
     plan: free
-    buildCommand: npm install
-    startCommand: node server.js
     branch: main
     autoDeploy: true
+    rootDir: .
+    buildCommand: npm install
+    startCommand: node server.js
