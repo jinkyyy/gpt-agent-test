@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { buildPrompt } = require('../utils/promptBuilder');
 const classifyInput = require('../../utils/classifyInput');
-const { searchMemory } = require('../utils/memoryClient'); // 또는 supabase 기반 memoryClient
-const { askGPT } = require('../utils/gpt'); // OpenAI API 호출 함수가 여기에 들어간다고 가정
+const { searchMemory } = require('../utils/memoryClient'); // Supabase 기반
 
 router.post('/respond', async (req, res) => {
   const userInput = req.body.userInput;
@@ -26,11 +25,8 @@ router.post('/respond', async (req, res) => {
   // 3. 프롬프트 생성
   const prompt = await buildPrompt({ characterName, userInput, memory, situation });
 
-  // 4. GPT 응답 생성
-  const gptResponse = await askGPT(prompt);
-
-  // 5. GPT 커스텀 액션 스펙에 맞는 응답 반환
-  res.json({ result: gptResponse });
+  // 4. GPT API는 사용하지 않으므로 프롬프트 텍스트 그대로 전달
+  res.json({ result: prompt });
 });
 
 module.exports = router;
