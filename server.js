@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
-const respondRouter = require('./routes/respond');
+const respondRouter = require('./gpt_agent_test_modules/routes/respond');
 
 app.use(express.json()); // 📌 반드시 있어야 GPT 요청 파싱 가능
 
