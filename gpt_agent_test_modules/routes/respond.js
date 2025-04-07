@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { buildPrompt } = require('../utils/promptBuilder');
-const classifyInput = require('../utils/classifyInput');
+const classifyInput = require('../../utils/classifyInput');
 const { searchMemory } = require('../utils/memoryClient'); // 또는 supabase 기반 memoryClient
 const { askGPT } = require('../utils/gpt'); // OpenAI API 호출 함수가 여기에 들어간다고 가정
 
