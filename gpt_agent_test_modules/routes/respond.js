@@ -1,32 +1,57 @@
-const express = require('express');
+
+const express = require("express");
 const router = express.Router();
-const { buildPrompt } = require('../utils/promptBuilder');
-const classifyInput = require('../../utils/classifyInput');
-const { searchMemory } = require('../utils/memoryClient'); // Supabase 기반
+const fs = require("fs");
+const path = require("path");
+const axios = require("axios");
 
-router.post('/respond', async (req, res) => {
-  const userInput = req.body.userInput;
-  const characterName = req.body.character || 'fairy';
+const { searchMemory } = require("../utils/memoryClient");
+const { classifyInput } = require("../utils/classifyInput");
+const { buildPrompt } = require("../utils/promptBuilder");
 
-  if (!userInput) {
-    return res.status(400).json({ error: 'userInput is required' });
+// Render API를 통한 GPT 호출
+async function askRenderAPI(prompt) {
+  try {
+    const response = await axios.post(
+      "https://fairy-agent.onrender.com/respond", // 당신의 Render API 주소
+      { prompt },
+      { headers: { "Content-Type": "application/json" } }
+    );
+    return response.data.result || "[Render 응답 없음]";
+  } catch (err) {
+    console.error("Render GPT API 호출 실패:", err.response?.data || err.message);
+    return "[Render API 호출 오류]";
   }
+}
 
-  // 1. 상황 분류
-  const situation = classifyInput(userInput);
+router.post("/respond", async (req, res) => {
+  try {
+    const { userInput, character } = req.body;
+    if (!userInput || !character) {
+      return res.status(400).json({ error: "userInput과 character가 필요합니다." });
+    }
 
-  // 2. 기억 검색
-  const memoryRaw = await searchMemory(userInput);
-  const memory = memoryRaw.map(m => ({
-    topic: m.topic || '기타',
-    content: m.content
-  }));
+    const situation = classifyInput(userInput);
+    const memory = await searchMemory(userInput);
 
-  // 3. 프롬프트 생성
-  const prompt = await buildPrompt({ characterName, userInput, memory, situation });
+    const dialoguePath = path.join(__dirname, "../data/dialogue_samples_fairy.json");
+    const dialogue = JSON.parse(fs.readFileSync(dialoguePath, "utf-8"));
+    const sampleDialogue = dialogue[situation] || [];
 
-  // 4. GPT API는 사용하지 않으므로 프롬프트 텍스트 그대로 전달
-  res.json({ result: prompt });
+    const prompt = await buildPrompt({
+      characterName: character,
+      userInput,
+      memory,
+      situation,
+      dialogueSamples: sampleDialogue,
+    });
+
+    const gptReply = await askRenderAPI(prompt);
+    res.json({ result: gptReply });
+  } catch (err) {
+    console.error("Respond API error:", err);
+    res.status(500).json({ error: "응답 생성 중 오류 발생" });
+  }
 });
 
 module.exports = router;
