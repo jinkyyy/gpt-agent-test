@@ -6,7 +6,7 @@ const path = require("path");
 const axios = require("axios");
 
 const { searchMemory } = require("../utils/memoryClient");
-const { classifyInput } = require("../utils/classifyInput");
+const { classifyInput } = require("../../utils/classifyInput");
 const { buildPrompt } = require("../utils/promptBuilder");
 
 // Render API를 통한 GPT 호출
