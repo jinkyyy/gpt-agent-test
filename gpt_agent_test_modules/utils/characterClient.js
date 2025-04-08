@@ -26,9 +26,3 @@ async function getCharacterData(characterName) {
     dialogue: data.dialogue_data
   };
 }
-
-<<<<<<< HEAD
-module.exports = { getCharacterData };
-=======
-module.exports = { getCharacterData };
->>>>>>> 2a2374a55da850d3b9cd1640a1593cc624dfe107
