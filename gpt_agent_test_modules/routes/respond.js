@@ -33,10 +33,6 @@ router.post("/respond", async (req, res) => {
     const situation = "default"
     const memory = await searchMemory(userInput);
 
-    const dialoguePath = path.join(__dirname, "../data/dialogue_samples_fairy.json");
-    const dialogue = JSON.parse(fs.readFileSync(dialoguePath, "utf-8"));
-    const sampleDialogue = dialogue[situation] || [];
-
     const prompt = await buildPrompt({
       characterName: character,
       userInput,

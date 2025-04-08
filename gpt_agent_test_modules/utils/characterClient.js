@@ -26,4 +26,7 @@ async function getCharacterData(characterName) {
     dialogue: data.dialogue_data
   };
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> fa9f321e20beca76ace139f9ae6ad285d14a6f54
