@@ -15,6 +15,18 @@ app.post('/gpt', async (req, res) => {
     return res.status(400).json({ error: "prompt가 필요합니다." });
   }
 
+  try {
+    // 예시로 GPT 응답 생성 코드 추가
+    const response = await openai.createCompletion({
+      model: 'gpt-3.5-turbo',
+      prompt: prompt,
+      max_tokens: 1000,
+    });
+    res.json({ result: response.choices[0].text.trim() });
+  } catch (error) {
+    res.status(500).json({ error: 'GPT 응답 처리 중 오류 발생' });
+  }
+});
 // openapi.yaml 접근용
 app.get('/openapi.yaml', (req, res) => {
   res.sendFile(path.join(__dirname, 'openapi.yaml'));
