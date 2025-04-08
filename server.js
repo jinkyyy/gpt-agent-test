@@ -15,11 +15,6 @@ app.post('/gpt', async (req, res) => {
     return res.status(400).json({ error: "prompt가 필요합니다." });
   }
 
-  // ✨ 실제 GPT 호출 로직 또는 임시 응답 생성
-  const dummyReply = `[임시 응답] 프롬프트를 잘 받았습니다: ${prompt}`;
-  res.json({ result: dummyReply });
-});
-
 // openapi.yaml 접근용
 app.get('/openapi.yaml', (req, res) => {
   res.sendFile(path.join(__dirname, 'openapi.yaml'));
