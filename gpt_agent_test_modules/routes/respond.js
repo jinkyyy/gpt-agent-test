@@ -38,7 +38,6 @@ router.post("/respond", async (req, res) => {
       userInput,
       memory,
       situation,
-      dialogueSamples: sampleDialogue,
     });
 
     const gptReply = await askRenderAPI(prompt);
