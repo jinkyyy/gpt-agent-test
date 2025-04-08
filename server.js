@@ -17,12 +17,15 @@ app.post('/gpt', async (req, res) => {
 
   try {
     // 예시로 GPT 응답 생성 코드 추가
-    const response = await openai.createCompletion({
-      model: 'gpt-3.5-turbo',
-      prompt: prompt,
-      max_tokens: 1000,
-    });
-    res.json({ result: response.choices[0].text.trim() });
+    const response = await openai.createChatCompletion({
+  model: 'gpt-4o',
+  messages: [
+    { role: 'system', content: 'You are a helpful assistant.' },
+    { role: 'user', content: prompt },
+  ],
+  max_tokens: 1000,
+});
+res.json({ result: response.data.choices[0].message.content.trim() });
   } catch (error) {
     res.status(500).json({ error: 'GPT 응답 처리 중 오류 발생' });
   }
