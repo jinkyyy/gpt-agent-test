@@ -1,4 +1,3 @@
-
 const express = require("express");
 const router = express.Router();
 const fs = require("fs");
@@ -8,11 +7,14 @@ const axios = require("axios");
 const { searchMemory } = require("../utils/memoryClient");
 const { buildPrompt } = require("../utils/promptBuilder");
 
-// Render API를 통한 GPT 호출
+// ✅ 외부 GPT 처리용 Render API 주소 (사용자 입력 필요)
+const GPT_RENDER_API_URL = "https://gpt-agent-test.onrender.com/gpt"; // ← 여기 직접 입력
+
+// GPT 호출 함수
 async function askRenderAPI(prompt) {
   try {
     const response = await axios.post(
-      "https://fairy-agent.onrender.com/respond", // 당신의 Render API 주소
+      GPT_RENDER_API_URL,
       { prompt },
       { headers: { "Content-Type": "application/json" } }
     );
@@ -23,6 +25,7 @@ async function askRenderAPI(prompt) {
   }
 }
 
+// 메인 응답 엔드포인트
 router.post("/respond", async (req, res) => {
   try {
     const { userInput, character } = req.body;
@@ -30,16 +33,17 @@ router.post("/respond", async (req, res) => {
       return res.status(400).json({ error: "userInput과 character가 필요합니다." });
     }
 
-    const situation = "default"
+    // 상황 정의 및 기억 검색
     const memory = await searchMemory(userInput);
 
+    // 프롬프트 생성
     const prompt = await buildPrompt({
       characterName: character,
       userInput,
       memory,
-      situation,
     });
 
+    // GPT 호출
     const gptReply = await askRenderAPI(prompt);
     res.json({ result: gptReply });
   } catch (err) {
