@@ -6,7 +6,6 @@
     "start": "node server.js"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@supabase/supabase-js": "^2.39.6",
     "axios": "^1.8.4",
     "body-parser": "^1.20.2",
@@ -14,11 +13,3 @@
     "express": "^4.18.2"
   }
 }
-=======
-    "express": "^4.18.2",
-    "body-parser": "^1.20.2",
-    "dotenv": "^16.3.1",
-    "@supabase/supabase-js": "^2.39.6"
-  }
-}
->>>>>>> 2a2374a55da850d3b9cd1640a1593cc624dfe107

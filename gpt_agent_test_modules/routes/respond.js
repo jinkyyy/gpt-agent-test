@@ -6,7 +6,6 @@ const path = require("path");
 const axios = require("axios");
 
 const { searchMemory } = require("../utils/memoryClient");
-const { classifyInput } = require("../utils/classifyInput");
 const { buildPrompt } = require("../utils/promptBuilder");
 
 // Render API를 통한 GPT 호출
@@ -31,7 +30,7 @@ router.post("/respond", async (req, res) => {
       return res.status(400).json({ error: "userInput과 character가 필요합니다." });
     }
 
-    const situation = classifyInput(userInput);
+    const situation = "default"
     const memory = await searchMemory(userInput);
 
     const dialoguePath = path.join(__dirname, "../data/dialogue_samples_fairy.json");
